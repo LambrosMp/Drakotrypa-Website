@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Δρακότρυπα | Our Village</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0f2218; /* Ακόμα πιο βαθύ, "γήινο" πράσινο */
+            --text-cream: #f4f1ea; /* Κρεμ/Ζαχαρί αντί για σκληρό λευκό */
+            --accent-gold: #c5a059; /* Παραδοσιακό χρυσό */
+            --overlay-dark: rgba(15, 34, 24, 0.95);
+            --bg-stone: #1e1e1e; /* Γκρι της πέτρας (Stone Gray) */
+            --bg-olive: #2a332a; /* Λαδί (Olive Green) */
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-cream);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 80px;
+            position: fixed; /* Σταθερό μενού */
+            top: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 1000;
+            background-color: rgba(15, 34, 24, 0.95); /* Πιο αδιαφανές χωρίς θόλωμα */
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2); /* Λεπτή χρυσή γραμμή */
+            animation: nav-glow 4s infinite ease-in-out;
+        }
+
+        .logo {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            color: var(--accent-gold); /* Χρυσό λογότυπο */
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: var(--bg-dark);
+            color: rgba(244, 241, 234, 0.6);
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(15,34,24,0.5), rgba(15,34,24,0.85)), 
+                        url('https://www.mouzaki.gr/images/diamerismata/drakotrypa/drakotrypa.jpg'); /* Εδώ βάζεις τη φωτό σου */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax Effect: Η εικόνα μένει σταθερή στο scroll */
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            margin: 0;
+            max-width: 900px;
+            line-height: 1.2;
+            font-weight: 400;
+            letter-spacing: -1px;
+            color: #ffffff; /* Λευκό για μέγιστη αναγνωσιμότητα */
+            text-shadow: 0 4px 15px rgba(0,0,0,0.6); /* Έντονη σκιά για να ξεχωρίζει */
+        }
+
+        .hero p {
+            max-width: 600px;
+            font-size: 1.4rem; /* Λίγο μεγαλύτερο */
+            color: var(--accent-gold);
+            margin: 30px 0;
+            line-height: 1.6;
+            font-weight: 300;
+            font-style: italic; /* Πλάγια γραφή για στυλ */
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        /* Το κουμπί από τη φωτογραφία */
+        .btn-outline {
+            border: 1px solid var(--accent-gold);
+            padding: 15px 40px;
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            transition: 0.4s;
+            text-transform: uppercase;
+            animation: btn-glow 3s infinite ease-in-out; /* Ρυθμικό "ανάσες" */
+            display: inline-block;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+            animation: none; /* Σταματάει το pulse όταν περνάει το ποντίκι */
+            box-shadow: 0 0 25px rgba(197, 160, 89, 0.6); /* Σταθερή λάμψη */
+        }
+
+        /* Animation για το Pulsing Glow */
+        @keyframes btn-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(197, 160, 89, 0.2); border-color: rgba(197, 160, 89, 0.6); }
+            50% { box-shadow: 0 0 20px rgba(197, 160, 89, 0.6); border-color: rgba(197, 160, 89, 1); }
+        }
+
+        /* Menu Wrapper (Desktop) */
+        .menu-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Hamburger Menu Icon */
+        .hamburger {
+            display: none; /* Κρυφό στο Desktop */
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 1001;
+            padding: 10px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--accent-gold);
+            transition: 0.3s;
+        }
+
+        /* Desktop Menu Styles (Standard Horizontal) */
+        nav ul {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            list-style: none;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+        }
+
+        nav ul li a {
+            color: var(--text-cream);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--accent-gold); /* Διακριτική γραμμή στο hover */
+        }
+
+        /* Responsive για κινητά */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1.1rem; }
+            
+            /* Performance Fixes: Απενεργοποίηση βαριών εφέ στα κινητά */
+            .hero { background-attachment: scroll !important; } /* 1. Fix Parallax Lag */
+            nav { animation: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2); } /* 2. Fix Box-Shadow Animation */
+            .map-frame { filter: none; } /* 4. Remove Filters */
+
+            nav { padding: 20px; }
+            
+            /* Το λογότυπο πρέπει να είναι πάνω από το overlay */
+            .logo { z-index: 1001; position: relative; }
+
+            .hamburger { display: flex; } /* Εμφάνιση Hamburger ΜΟΝΟ στο κινητό */
+
+            nav ul { 
+                display: flex;
+                position: fixed; /* Full Screen Overlay */
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                flex-direction: column;
+                justify-content: center; /* Κεντράρισμα στον κάθετο άξονα */
+                align-items: flex-start; /* Στοίχιση αριστερά */
+                padding-left: 60px; /* Απόσταση από αριστερά */
+                
+                /* Glassmorphism & Background */
+                background: rgba(244, 241, 234, 0.98); /* Κρεμ φόντο (Light Theme) */
+                backdrop-filter: none; /* 4. Remove Blur for performance */
+                
+                /* Animation εισόδου του Container */
+                transform: translateX(100%);
+                transform-origin: center; /* Reset origin */
+                transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+                z-index: 1000;
+                gap: 30px; /* Απόσταση μεταξύ των links */
+                box-sizing: border-box;
+                
+                /* Reset Desktop Styles for Mobile */
+                visibility: visible; /* Επαναφορά για το animation */
+                opacity: 1; 
+                padding: 0;
+                padding-left: 60px;
+                width: 100%;
+            }
+
+            /* Η χρυσή γραμμή (Σπαθί/Ράχη βιβλίου) */
+            nav ul::before {
+                content: '';
+                position: absolute;
+                left: 40px;
+                top: 20%;
+                bottom: 20%;
+                width: 1px;
+                background-color: var(--bg-dark); /* Πράσινη λεπτομέρεια (Ράχη) */
+                opacity: 0.8;
+            }
+
+            nav ul.active {
+                transform: translateX(0); /* Εμφάνιση */
+            }
+
+            /* Typography & Stagger Animation για τα Links */
+            nav ul li {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.4s ease;
+            }
+
+            nav ul li a {
+                font-family: 'Playfair Display', serif; /* Serif Γραμματοσειρά */
+                font-size: 1.8rem;
+                font-size: 1.5rem; /* Μικρότερο μέγεθος για πιο "ακριβό" look */
+                text-transform: uppercase;
+                letter-spacing: 3px; /* Luxury spacing */
+                color: var(--accent-gold); /* Χρυσά γράμματα */
+                border: none; /* Αφαίρεση παλιών borders */
+                font-weight: 700; /* Πιο έντονα για να φαίνονται στο λευκό */
+                display: block;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Πιο έντονη σκιά για ευκρίνεια */
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Πολύ διακριτική σκιά (Clean look) */
+                opacity: 0.8; /* Ελαφριά διαφάνεια αρχικά */
+                transition: all 0.3s ease;
+            }
+
+            nav ul li a:hover {
+                color: var(--bg-dark); /* Πράσινο στο Hover */
+                opacity: 1; /* Πλήρης αδιαφάνεια */
+                text-shadow: 0 0 8px rgba(197, 160, 89, 0.3); /* Ελαφριά λάμψη */
+                padding-left: 10px; /* Μικρή κίνηση δεξιά στο hover */
+            }
+
+            /* Stagger Delays: Εμφάνιση ένα-ένα */
+            nav ul.active li { opacity: 1; transform: translateY(0); }
+            nav ul.active li:nth-child(1) { transition-delay: 0.1s; }
+            nav ul.active li:nth-child(2) { transition-delay: 0.2s; }
+            nav ul.active li:nth-child(3) { transition-delay: 0.3s; }
+            nav ul.active li:nth-child(4) { transition-delay: 0.4s; }
+            nav ul.active li:nth-child(5) { transition-delay: 0.5s; }
+            nav ul.active li:nth-child(6) { transition-delay: 0.6s; }
+
+            /* Διόρθωση padding για να μην κόβονται τα κείμενα */
+            .container { padding: 40px 20px; }
+            .content-section { padding: 60px 10px; }
+            
+            /* Προσαρμογή καρτών */
+            .shop-card { width: 100%; max-width: 100%; }
+            
+            /* Animation Hamburger σε X */
+            /* Αλλαγή χρώματος σε Πράσινο όταν είναι ενεργό (για να φαίνεται στο λευκό) */
+            .hamburger.active span { background-color: var(--bg-dark); }
+            
+            .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); background-color: var(--bg-dark); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); background-color: var(--bg-dark); }
+
+            /* Logo Active State (Green Glow όταν ανοίγει το μενού) */
+            nav .logo.active {
+                color: var(--bg-dark);
+                text-shadow: 0 0 15px rgba(15, 34, 24, 0.5); /* Πράσινη λάμψη */
+                transition: color 0.3s ease, text-shadow 0.3s ease;
+            }
+
+            /* Απλοποίηση των containers για κινητά */
+            #news .container,
+            #association .container,
+            #shops .container,
+            #history .container,
+            #sights .container,
+            #access .container {
+                background-image: none; /* Αφαίρεση των διακοσμητικών γωνιών */
+                background-color: rgba(15, 34, 24, 0.6); /* Ημιδιαφανές φόντο για να ξεχωρίζει */
+                padding: 30px 20px; /* Μικρότερο padding */
+                border: 1px solid var(--accent-gold); /* Απλό χρυσό περίγραμμα */
+                border-radius: 0; /* Αφαίρεση στρογγυλεμένων γωνιών */
+                box-shadow: none; /* Αφαίρεση σκιάς */
+            }
+
+            /* Ειδικά για την ιστορία, αφαιρούμε και την εικόνα φόντου */
+            #history .container {
+                background-attachment: scroll !important; /* Επαναφορά από το fixed */
+            }
+        }
+
+        /* Animation για αργό αναβόσβημα ΜΟΝΟ στο λογότυπο */
+        .logo {
+            animation: text-glow 4s infinite ease-in-out;
+        }
+
+        @keyframes text-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Animation για το μενού (Nav Glow) */
+        @keyframes nav-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(197, 160, 89, 0.1); border-bottom-color: rgba(197, 160, 89, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(197, 160, 89, 0.5); border-bottom-color: rgba(197, 160, 89, 0.6); }
+        }
+
+        /* Στυλ για τις νέες ενότητες */
+        .content-section {
+            min-height: 100vh; /* Γεμίζει όλη την οθόνη */
+            padding: 100px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Εναλλαγή χρωμάτων για συνέχεια (Earthy Palette) */
+        #news, #shops, #sights {
+            background-color: var(--bg-stone);
+        }
+        
+        #association, #access {
+            background-color: var(--bg-olive);
+        }
+
+        /* Βασικό στυλ container (Το βάζουμε ΠΡΙΝ τα ειδικά styles για να μην τα ακυρώνει) */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            padding: 60px;
+            background-color: transparent;
+            color: var(--text-cream);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+        }
+
+        #history {
+            
+            background-color: var(--bg-olive);
+        }
+
+        #history .container {
+            position: relative;
+            /* Διακοσμητικές Γωνίες (Λευκές με Χρυσή γραμμή) + Φόντο */
+            background-image: 
+                linear-gradient(135deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px), /* Πάνω Αριστερά */
+                linear-gradient(225deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px), /* Πάνω Δεξιά */
+                linear-gradient(315deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px), /* Κάτω Δεξιά */
+                linear-gradient(45deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px),  /* Κάτω Αριστερά */
+                linear-gradient(rgba(15, 34, 24, 0.85), rgba(15, 34, 24, 0.9)), /* Overlay */
+                url('https://thumbs.dreamstime.com/b/ancient-book-22847513.jpg'); /* Εικόνα */
+            
+            background-position: top left, top right, bottom right, bottom left, center, center;
+            background-size: 60px 60px, 60px 60px, 60px 60px, 60px 60px, cover, cover;
+            background-repeat: no-repeat;
+            background-attachment: scroll, scroll, scroll, scroll, scroll, fixed;
+            
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4); /* Προσθήκη σκιάς για να ξεχωρίζει το πλαίσιο */
+            border-radius: 15px; /* Ελαφρώς καμπυλωτές γωνίες */
+            border: 1px solid rgba(197, 160, 89, 0.3);
+        }
+
+        #shops .container,
+        #news .container,
+        #association .container,
+        #access .container {
+            position: relative;
+            /* Διακοσμητικές Γωνίες (Λευκές με Χρυσή γραμμή) */
+            background-image: 
+                linear-gradient(135deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px), /* Πάνω Αριστερά */
+                linear-gradient(225deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px), /* Πάνω Δεξιά */
+                linear-gradient(315deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px), /* Κάτω Δεξιά */
+                linear-gradient(45deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px);  /* Κάτω Αριστερά */
+            
+            background-position: top left, top right, bottom right, bottom left;
+            background-size: 60px 60px, 60px 60px, 60px 60px, 60px 60px;
+            background-repeat: no-repeat;
+            
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border-radius: 15px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+        }
+
+        #sights .container {
+            position: relative;
+            /* Διακοσμητικές Γωνίες (Λευκές με Χρυσή γραμμή) + Φόντο */
+            background-image: 
+                linear-gradient(135deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px), /* Πάνω Αριστερά */
+                linear-gradient(225deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px), /* Πάνω Δεξιά */
+                linear-gradient(315deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px), /* Κάτω Δεξιά */
+                linear-gradient(45deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px),  /* Κάτω Αριστερά */
+                linear-gradient(rgba(15, 34, 24, 0.85), rgba(15, 34, 24, 0.9)), /* Overlay */
+                url('https://eleftherostypos.gr/wp-content/uploads/2022/07/LIMNI-PLASTIRA-pl-47-shutterstock_1167400192-scaled.jpg'); /* Εικόνα */
+            
+            background-position: top left, top right, bottom right, bottom left, center, center;
+            background-size: 60px 60px, 60px 60px, 60px 60px, 60px 60px, cover, cover;
+            background-repeat: no-repeat;
+            background-attachment: scroll, scroll, scroll, scroll, scroll, fixed;
+            
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border-radius: 15px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 30px;
+            font-weight: 700;
+            border-bottom: 2px solid #c5a059; /* Διακοσμητική γραμμή */
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(244, 241, 234, 0.8);
+            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Στυλ για τον χάρτη */
+        .map-frame {
+            width: 100%;
+            height: 400px;
+            border: 1px solid var(--accent-gold);
+            margin-top: 30px;
+            filter: grayscale(20%) contrast(1.1); /* Ελαφρύ φίλτρο για να ταιριάζει με το dark theme */
+            padding: 15px; /* Εσωτερικό κενό για το πλαίσιο */
+            background-color: rgba(0, 0, 0, 0.6); /* Σκούρο ημιδιαφανές φόντο */
+            box-sizing: border-box;
+        }
+
+        /* Weather Widget */
+        .weather-widget {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            color: var(--text-cream);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Shop Cards Styling */
+        .shop-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Κεντράρει τα στοιχεία στην τελευταία σειρά */
+            gap: 30px;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .shop-card {
+            /* Στυλ Παλιάς Σελίδας Βιβλίου */
+            background-color: #f4e4bc; /* Χρώμα περγαμηνής */
+            background-image: linear-gradient(to right, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 5%, rgba(0,0,0,0) 95%, rgba(0,0,0,0.05) 100%);
+            border: 1px solid #8b5a2b; /* Καφέ περίγραμμα */
+            padding: 25px;
+            transition: 0.3s;
+            text-align: center;
+            border-radius: 2px; /* Ελαφρώς στρογγυλεμένες άκρες χαρτιού */
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.4); /* Σκιά για βάθος */
+            flex: 1 1 300px; /* Ευέλικτο πλάτος */
+            max-width: 400px; /* Μέγιστο πλάτος για να μην απλώνει υπερβολικά */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .shop-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 10px 10px 25px rgba(0,0,0,0.6);
+            filter: sepia(20%); /* Ελαφρύ εφέ παλαίωσης στο hover */
+        }
+
+        .shop-card:hover h3, .shop-card:hover p {
+            color: #2c1810; /* Παραμένει το χρώμα του μελανιού */
+        }
+
+        .shop-card h3 {
+            margin-top: 0;
+            font-family: 'Playfair Display', serif;
+            color: #4a0404; /* Χρώμα τίτλου (σκούρο κόκκινο/καφέ) */
+            border-bottom: 1px solid rgba(139, 90, 43, 0.3);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .shop-card p {
+            color: #2c1810; /* Χρώμα κειμένου (σκούρο καφέ μελάνι) */
+            font-family: 'Playfair Display', serif;
+        }
+
+        .rating {
+            color: #b8860b; /* Σκούρο χρυσό για να φαίνεται στο χαρτί */
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+        .review {
+            font-style: italic;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Κουμπί Χάρτη auto /* Σπρώχνει το κουμπί στο κάτω μέρος */
+        .btn-map {
+            display: inline-block;
+            margin-top: 15px;
+            margin-top: auto; /* Σπρώχνει το κουμπί στο κάτω μέρος */
+            padding: 8px 20px;
+            border: 1px solid #8b5a2b;
+            color: #8b5a2b;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-map:hover {
+            background: #8b5a2b;
+            color: #f4e4bc;
+        }
+
+        /* Διόρθωση αντίθεσης κουμπιού όταν το ποντίκι είναι στην κάρτα */
+        .shop-card:hover .btn-map {
+            border-color: var(--bg-dark);
+            color: var(--bg-dark);
+        }
+
+        .shop-card:hover .btn-map:hover {
+            background: var(--bg-dark);
+            color: var(--accent-gold);
+        }
+
+        /* Transition Curtain Effect */
+        .transition-curtain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            z-index: 9999;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none; /* Για να μην εμποδίζει τα κλικ όταν είναι κλειστή */
+        }
+
+        .transition-curtain.active {
+            transform: scaleY(1);
+            pointer-events: all;
+        }
+
+        .transition-curtain.reveal-page {
+            transform-origin: top;
+            transform: scaleY(0);
+        }
+
+        /* History Section Styling */
+        .accordion-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        details {
+            background: rgba(15, 34, 24, 0.6); /* Σκούρο ημιδιαφανές φόντο */
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        details:hover {
+            border-color: var(--accent-gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        summary {
+            padding: 25px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--accent-gold);
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            transition: background 0.3s;
+        }
+
+        summary::-webkit-details-marker { display: none; } /* Απόκρυψη default βέλους */
+
+        summary:after {
+            content: '+'; 
+            font-size: 1.8rem; 
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary:after {
+            transform: rotate(45deg); /* Περιστροφή σε Χ */
+        }
+
+        details[open] summary {
+            background: rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .accordion-content {
+            padding: 30px;
+            color: var(--text-cream);
+            line-height: 1.8;
+            font-family: 'Inter', sans-serif;
+            animation: slideDown 0.6s ease-out; /* Εφέ εμφάνισης */
+        }
+
+        .accordion-content h4 {
+            color: var(--accent-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--accent-gold);
+            padding-left: 15px;
+        }
+
+        .accordion-content h4:first-child {
+            margin-top: 0;
+        }
+
+        /* Timeline Styling */
+        .timeline-wrapper {
+            margin-top: 40px;
+            position: relative;
+            display: none; /* Αρχικά κρυφό */
+            padding: 20px 0 80px 0; /* Περισσότερος χώρος κάτω για το κουμπί */
+            overflow: hidden;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--accent-gold);
+            transform: translateX(-50%);
+            height: 0; /* Ξεκινάει με ύψος 0 για το animation */
+            transition: height 1s linear; /* Smooth growth */
+            z-index: 1;
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 20px 40px;
+            box-sizing: border-box;
+            opacity: 0; /* Αρχικά αόρατο */
+            transition: opacity 0.8s ease;
+            z-index: 2;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background-color: var(--bg-dark);
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            top: 25px;
+            right: -9px; /* Για τα αριστερά items */
+            z-index: 3;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -9px;
+            right: auto;
+        }
+
+        .timeline-date {
+            font-family: 'Playfair Display', a>
+    <div class="menu-wrspper"erif;
+                color: var(--accent-gold);
+                font-size: 1.3rem;
+                font-weight: 700;
+                margin-bottom: 10px;
+                display: block;
+            }
+    
+            .timeline-content h5 {
+                margin: 0 0 10px 0;
+                font-size: 1.1rem;
+                color: var(--text-cream);
+            }
+    >
+    </div
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: rgba(244, 241, 234, 0.7);
+        }
+
+        /* Κουμπί Κλεισίματος Timeline (Χ) */
+        .timeline-close {
+            position: absolute;
+            bottom: 20px; /* Εμφανίζεται καθαρά μέσα στο πλαίσιο */
+            left: 50%;
+            transform: translateX(-50%) scale(0); /* Αρχικά κρυμμένο */
+            width: 40px;
+            height: 40px;
+            background-color: var(--text-cream); /* Κρεμ φόντο */
+            color: var(--accent-gold); /* Χρυσό Χ */
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .timeline-close:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.6);
+        }
+
+        /* Timeline Responsive */
+        @media (max-width: 768px) {
+            /* Διατηρούμε την εναλλασσόμενη διάταξη, αλλά μειώνουμε το padding για να χωράει το περιεχόμενο */
+            .timeline-item {
+                padding: 20px 15px; /* Λιγότερο οριζόντιο padding */
+            }
+            .timeline-content p {
+                font-size: 0.9rem; /* Λίγο μικρότερο κείμενο για να μην στριμώχνεται */
+            }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Curtain Element -->
+<div class="transition-curtain">
+    <div class="logo" style="font-size: 2rem; animation: none;">ΔΡΑΚΟΤΡΥΠΑ</div>
+</div>
+
+<nav>
+    <a href="#home" class="logo">ΔΡΑΚΟΤΡΥΠΑ</a>
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <ul>
+        <li><a href="#news">Νέα και Ανακοινώσεις</a></li>
+        <li><a href="#association">Ο Σύλλογος</a></li>
+        <li><a href="#shops">Καταστήματα</a></li>
+        <li><a href="#history">Ιστορία</a></li>
+        <li><a href="#sights">Αξιοθέατα</a></li>
+        <li><a href="#access">Πρόσβαση</a></li>
+    </ul>
+</nav>
+
+<section class="hero" id="home">
+    <h1>«Κοίταξε βαθιά μέσα στη φύση και τότε θα καταλάβεις τα πάντα καλύτερα.»</h1>
+    <p>– Albert Einstein</p>
+    <a href="#news" class="btn-outline" id="discover-btn">Ανακαλυψτε</a>
+    
+    <!-- Weather Widget Container -->
+    <div id="weather-widget" class="weather-widget">Φόρτωση καιρού...</div>
+</section>
+
+<section id="news" class="content-section">
+    <div class="container reveal">
+        <h2>Νέα και Ανακοινώσεις</h2>
+        <p>Μείνετε ενημερωμένοι για τις τελευταίες δράσεις και τα νέα του χωριού μας.</p>
+    </div>
+</section>
+
+<section id="association" class="content-section">
+    <div class="container reveal">
+        <h2>Ο Σύλλογος</h2>
+        <p>Πληροφορίες για τον πολιτιστικό σύλλογο, το έργο και τις εκδηλώσεις μας.</p>
+    </div>
+</section>
+
+<section id="shops" class="content-section">
+    <div class="container reveal">
+        <h2>Καταστήματα</h2>
+        <p>Ανακαλύψτε τις παραδοσιακές γεύσεις και τα σημεία συνάντησης του χωριού μας.</p>
+        
+        <div class="shop-grid">
+            <div class="shop-card">
+                <h3>Το Πέτρινο</h3>
+                <p>Καφέ - Εστίαση</p>
+                <div class="rating">★★★★★ 4.8</div>
+                <p class="review">"Πανέμορφο μαγαζί με παραδοσιακό ξυλόφουρνο και πολύ ζεστή ατμόσφαιρα. Ο καφές εξαιρετικός!"</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Το+Πέτρινο+Δρακότρυπα" target="_blank" class="btn-map">Δείτε το στον χάρτη</a>
+            </div>
+            <div class="shop-card">
+                <h3>Η Νυχτερίδα</h3>
+                <p>Καφέ - Εστίαση</p>
+                <div class="rating">★★★★★ 4.6</div>
+                <p class="review">"Ωραία θέα και φαγητό, δροσιά το καλοκαίρι και πολύ ευγενικοί άνθρωποι."</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Η+Νυχτερίδα+Δρακότρυπα" target="_blank" class="btn-map">Δείτε το στον χάρτη</a>
+            </div>
+            <div class="shop-card">
+                <h3>Καφέ Βέργης</h3>
+                <p>Καφέ - Εστίαση</p>
+                <div class="rating">★★★★★ 4.7</div>
+                <p class="review">"Το καλύτερο στέκι για τσίπουρο και μεζέ στην πλατεία!"</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Καφέ+Βέργης+Δρακότρυπα" target="_blank" class="btn-map">Δείτε το στον χάρτη</a>
+            </div>
+            <div class="shop-card">
+                <h3>Μαλάμος</h3>
+                <p>Καφέ - Ζαχαροπλαστείο</p>
+                <div class="rating">★★★★★ 4.9</div>
+                <p class="review">"Τα γλυκά του είναι απίστευτα, ειδικά η πουτίγκα. Μην το χάσετε!"</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Ζαχαροπλαστείο+Μαλάμος+Δρακότρυπα" target="_blank" class="btn-map">Δείτε το στον χάρτη</a>
+            </div>
+            <div class="shop-card">
+                <h3>Ταβέρνα "Κεραμαριό"</h3>
+                <p>Καφέ - Εστίαση</p>
+                <div class="rating">★★★★★ 4.8</div>
+                <p class="review">"Μαγευτική τοποθεσία. Το φαγητό είναι παραδοσιακό και πεντανόστιμο."</p>
+                <a href="https://maps.app.goo.gl/9d9GhQrRWPpUW8Pi7" target="_blank" class="btn-map">Δείτε το στον χάρτη</a>
+            </div>
+            <div class="shop-card">
+                <h3>Mini Market</h3>
+                <p>Είδη πρώτης ανάγκης</p>
+                <div class="rating">★★★★★ 4.5</div>
+                <p class="review">"Βρίσκεις ό,τι χρειαστείς, πολύ εξυπηρετικός ο ιδιοκτήτης."</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Mini+Market+Δρακότρυπα" target="_blank" class="btn-map">Δείτε το στον χάρτη</a>
+            </div>
+            <div class="shop-card">
+                <h3>Κουμπούρας</h3>
+                <p>Καφέ - Εστίαση</p>
+                <div class="rating">★★★★★ 4.8</div>
+                <p class="review">"Η καλύτερη πίτσα και υπέροχη αυλή για τα καλοκαιρινά βράδια."</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Πλατεία+Δρακότρυπα" target="_blank" class="btn-map">Δείτε το στον χάρτη</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="history" class="content-section">
+    <div class="container reveal">
+        <h2>Ιστορία</h2>
+        
+        <p>
+            Η Δρακότρυπα έχει μια πλούσια ιστορία που χάνεται στα βάθη των αιώνων. Από τους θρύλους για τον δράκο που ζούσε στο σπήλαιο, μέχρι τη φημισμένη Σχολή της Σκλάταινας και τους περίφημους Σπαθάδες, το χωριό μας αποτελούσε πάντα φάρο πολιτισμού και δύναμης.
+        </p>
+        <div style="margin-top: 30px;">
+            <a href="history.html" class="btn-outline" id="read-more-history">ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ</a>
+        </div>
+    </div>
+</section>
+
+<section id="sights" class="content-section">
+    <div class="container reveal">
+        <h2>Αξιοθέατα</h2>
+        <p>Επισκεφθείτε τα μοναδικά μνημεία και τις φυσικές ομορφιές της περιοχής.</p>
+        <div style="margin-top: 30px;">
+            <a href="sights.html" class="btn-outline" id="sights-btn">ΔΕΙΤΕ ΤΑ ΑΞΙΟΘΕΑΤΑ</a>
+        </div>
+    </div>
+</section>
+
+<section id="access" class="content-section">
+    <div class="container reveal">
+        <h2>Πρόσβαση</h2>
+        <p>Δείτε πώς θα φτάσετε στο χωριό μας και βρείτε χρήσιμες πληροφορίες για τη διαμονή σας.</p>
+        
+        <!-- Χάρτης Google Maps -->
+        <iframe 
+            class="map-frame"
+            src="https://maps.google.com/maps?q=Drakotrypa,Karditsa&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+            allowfullscreen loading="lazy">
+        </iframe>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 Δρακότρυπα | All Rights Reserved </p>
+</footer>
+
+<script>
+    // Mobile Menu Toggle Script
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('nav ul');
+    const navLogo = document.querySelector('nav .logo');
+    const nav = document.querySelector('nav');
+
+    // Λειτουργίες ανοίγματος/κλεισίματος
+    function openMenu() {
+        hamburger.classList.add('active');
+        navMenu.classList.add('active');
+        navLogo.classList.add('active');
+    }
+
+    function closeMenu() {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+        navLogo.classList.remove('active');
+    }
+
+    // Hover Events (Όταν περνάει το ποντίκι)
+    hamburger.addEventListener('mouseenter', openMenu);
+    nav.addEventListener('mouseleave', closeMenu);
+
+    // Click Event (Για κινητά ή κλικ)
+    hamburger.addEventListener('click', (e) => {
+        if (navMenu.classList.contains('active')) closeMenu();
+        else openMenu();
+    });
+
+    document.querySelectorAll('nav ul li a').forEach(n => n.addEventListener('click', () => {
+        closeMenu();
+    }));
+
+    // Custom JavaScript για γρήγορο και ομαλό scroll
+    document.querySelectorAll('a[href^="#"]:not(#discover-btn)').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (!targetSection) return;
+
+            const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 800; // Διάρκεια σε milliseconds (χαμηλότερο = πιο γρήγορο)
+            let start = null;
+
+            window.requestAnimationFrame(function step(timestamp) {
+                if (!start) start = timestamp;
+                const progress = timestamp - start;
+                const progressRatio = Math.min(progress / duration, 1);
+                
+                // Easing function για πιο φυσική κίνηση (easeInOutQuad)
+                const ease = progressRatio < 0.5 ? 2 * progressRatio * progressRatio : -1 + (4 - 2 * progressRatio) * progressRatio;
+
+                window.scrollTo(0, startPosition + distance * ease);
+
+                if (progress < duration) {
+                    window.requestAnimationFrame(step);
+                }
+            });
+        });
+    });
+
+    // Scroll Reveal Animation Script
+    // 3. Intersection Observer (Performance Optimization αντί για scroll event)
+    const observerOptions = {
+        threshold: 0.15 // Ενεργοποίηση όταν φαίνεται το 15% του στοιχείου
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Σταματάμε να το παρακολουθούμε αφού εμφανιστεί (Save resources)
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Weather Widget Script
+    async function fetchWeather() {
+        const widget = document.getElementById('weather-widget');
+        try {
+            // Συντεταγμένες για Δρακότρυπα (περίπου)
+            const lat = 39.36;
+            const lon = 21.64;
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            const temp = Math.round(data.current_weather.temperature);
+            const code = data.current_weather.weathercode;
+            
+            // Απλή αντιστοίχιση κωδικών καιρού (WMO codes)
+            let desc = "Άγνωστο";
+            if (code === 0) desc = "Καθαρός ουρανός";
+            else if (code >= 1 && code <= 3) desc = "Λίγα σύννεφα";
+            else if (code >= 45 && code <= 48) desc = "Ομίχλη";
+            else if (code >= 51 && code <= 67) desc = "Βροχή";
+            else if (code >= 71 && code <= 77) desc = "Χιόνι";
+            else if (code >= 80 && code <= 82) desc = "Μπόρες";
+            else if (code >= 95) desc = "Καταιγίδα";
+            
+            widget.innerHTML = `${temp}°C - ${desc}`;
+        } catch (error) {
+            console.error("Weather fetch failed:", error);
+            widget.innerHTML = ""; // Απόκρυψη αν αποτύχει
+        }
+    }
+
+    // Κλήση της συνάρτησης
+    fetchWeather();
+
+    // Elegant Transition Script (Curtain Effect)
+    const discoverBtn = document.getElementById('discover-btn');
+    const curtain = document.querySelector('.transition-curtain');
+
+    if (discoverBtn && curtain) {
+        discoverBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // 1. Curtain Up (Cover)
+            curtain.classList.remove('reveal-page');
+            curtain.classList.add('active');
+            
+            // 2. Wait, Scroll, Curtain Down (Reveal)
+            setTimeout(() => {
+                const target = document.querySelector('#news');
+                if (target) {
+                    target.scrollIntoView({ behavior: 'auto' }); // Άμεση μεταφορά πίσω από την κουρτίνα
+                }
+                
+                // Reveal
+                curtain.classList.remove('active');
+                curtain.classList.add('reveal-page');
+            }, 1000); // Χρόνος αναμονής για να ολοκληρωθεί το ανέβασμα της κουρτίνας
+        });
+    }
+
+    // Sights Button Transition Script
+    const sightsBtn = document.getElementById('sights-btn');
+    if (sightsBtn && curtain) {
+        sightsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            curtain.classList.remove('reveal-page');
+            curtain.classList.add('active');
+            setTimeout(() => {
+                window.location.href = 'sights.html';
+            }, 1000);
+        });
+    }
+
+    // History Button Transition Script (Εφέ Κουρτίνας για την Ιστορία)
+    const historyBtn = document.getElementById('read-more-history');
+    if (historyBtn && curtain) {
+        historyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // 1. Curtain Up
+            curtain.classList.remove('reveal-page');
+            curtain.classList.add('active');
+            
+            // 2. Navigate after animation
+            setTimeout(() => {
+                window.location.href = 'history.html';
+            }, 1000);
+        });
+    }
+
+    // Timeline Animation Script
+    const timelineBtn = document.getElementById('timeline-btn');
+    if (timelineBtn) {
+        timelineBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            // Απόκρυψη κουμπιού και εμφάνιση container
+            this.style.display = 'none';
+            const timeline = document.getElementById('timeline');
+            timeline.style.display = 'block';
+
+            const items = document.querySelectorAll('.timeline-item');
+            const line = document.getElementById('main-line');
+            
+            // Συνάρτηση αναμονής (sleep)
+            const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            // Βήμα 1: Εμφάνιση ολόκληρης της γραμμής
+            line.style.height = '100%';
+            await wait(1000); // Περιμένουμε να κατέβει η γραμμή
+
+            // Loop για κάθε στοιχείο
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const dot = item.querySelector('.timeline-dot');
+                
+                // Βήμα 2: Εμφάνιση Κουκκίδας (Pop effect)
+                dot.style.opacity = '1';
+                dot.style.transform = 'scale(1)';
+                
+                await wait(200);
+
+                // Βήμα 3: Εμφάνιση Κειμένου (Fade in)
+                item.style.opacity = '1';
+                
+                await wait(400); // Μικρή παύση πριν συνεχίσει η γραμμή
+            }
+
+            // Βήμα 4: Εμφάνιση κουμπιού κλεισίματος
+            const closeBtn = document.getElementById('timeline-close');
+            if (closeBtn) {
+                closeBtn.style.transform = 'translateX(-50%) scale(1)';
+            }
+        });
+    }
+
+    // Λειτουργία Κλεισίματος Timeline
+    const closeBtn = document.getElementById('timeline-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            const timeline = document.getElementById('timeline');
+            const timelineBtn = document.getElementById('timeline-btn');
+            
+            // Απόκρυψη Timeline και εμφάνιση κουμπιού
+            timeline.style.display = 'none';
+            timelineBtn.style.display = 'inline-block';
+
+            // Reset Animations (για να ξαναπαίξει αν το ανοίξουμε πάλι)
+            document.getElementById('main-line').style.height = '0';
+            document.querySelectorAll('.timeline-item').forEach(item => item.style.opacity = '0');
+            document.querySelectorAll('.timeline-dot').forEach(dot => {
+                dot.style.opacity = '0';
+                dot.style.transform = 'scale(0)';
+            });
+            this.style.transform = 'translateX(-50%) scale(0)';
+            
+            // Επιστροφή στην αρχή της Ιστορίας
+            const historySection = document.getElementById('history');
+            if (historySection) {
+                historySection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    // Fix for Mobile Back Button (bfcache)
+    // Όταν ο χρήστης επιστρέφει με το κουμπί του κινητού, η σελίδα μπορεί να είναι cached
+    // με την κουρτίνα κλειστή (active). Αυτό το event τρέχει πάντα και την ανοίγει.
+    window.addEventListener('pageshow', function(event) {
+        const curtain = document.querySelector('.transition-curtain');
+        if (curtain) {
+            curtain.classList.remove('active');
+            curtain.classList.add('reveal-page');
+        }
+    });
+
+</script>
+
+</body>
+</html>
