@@ -41,5 +41,6 @@
    ```bash
    git clone [https://github.com/LambrosMp/Drakotrypa-Website.git](https://github.com/LambrosMp/Drakotrypa-Website.git)
 
-   🖋️ Δημιουργός
+
+🖋️ Δημιουργός
 Λάμπρος Μπούρμπος
