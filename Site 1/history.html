@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ιστορία | Δρακότρυπα</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Αντιγραφή των στυλ από το index.html για συνέπεια */
+        :root {
+            --bg-dark: #0f2218;
+            --text-cream: #f4f1ea;
+            --accent-gold: #c5a059;
+            --overlay-dark: rgba(15, 34, 24, 0.95);
+            --bg-stone: #1e1e1e;
+            --bg-olive: #2a332a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-olive); /* Χρώμα φόντου της ιστορίας */
+            color: var(--text-cream);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 80px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 1000;
+            background-color: rgba(15, 34, 24, 0.95);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            animation: nav-glow 4s infinite ease-in-out;
+        }
+
+        .logo {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            text-decoration: none;
+            cursor: pointer;
+            animation: text-glow 4s infinite ease-in-out;
+        }
+
+        /* Container Styles */
+        .content-section {
+            padding: 140px 20px 60px 20px; /* Αυξημένο padding πάνω για το μενού */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            padding: 60px;
+            color: var(--text-cream);
+            position: relative;
+            /* Διακοσμητικές Γωνίες + Φόντο */
+            background-image: 
+                linear-gradient(135deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px),
+                linear-gradient(225deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px),
+                linear-gradient(315deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px),
+                linear-gradient(45deg, var(--text-cream) 25px, var(--accent-gold) 25px, var(--accent-gold) 27px, transparent 27px),
+                linear-gradient(rgba(15, 34, 24, 0.85), rgba(15, 34, 24, 0.9)),
+                url('https://thumbs.dreamstime.com/b/ancient-book-22847513.jpg');
+            
+            background-position: top left, top right, bottom right, bottom left, center, center;
+            background-size: 60px 60px, 60px 60px, 60px 60px, 60px 60px, cover, cover;
+            background-repeat: no-repeat;
+            background-attachment: scroll, scroll, scroll, scroll, scroll, fixed;
+            
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border-radius: 15px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 30px;
+            font-weight: 700;
+            border-bottom: 2px solid #c5a059;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        /* Accordion Styles */
+        .accordion-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        details {
+            background: rgba(15, 34, 24, 0.6);
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        details:hover {
+            border-color: var(--accent-gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        summary {
+            padding: 25px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--accent-gold);
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            transition: background 0.3s;
+        }
+
+        summary::-webkit-details-marker { display: none; }
+
+        summary:after {
+            content: '+'; 
+            font-size: 1.8rem; 
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        details[open] summary:after {
+            transform: rotate(45deg);
+        }
+
+        details[open] summary {
+            background: rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .accordion-content {
+            padding: 30px;
+            color: var(--text-cream);
+            line-height: 1.8;
+            font-family: 'Inter', sans-serif;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .accordion-content h4 {
+            color: var(--accent-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--accent-gold);
+            padding-left: 15px;
+        }
+
+        /* Timeline Styles */
+        .timeline-wrapper {
+            margin-top: 40px;
+            position: relative;
+            display: none;
+            padding: 20px 0 80px 0;
+            overflow: hidden;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--accent-gold);
+            transform: translateX(-50%);
+            height: 0;
+            transition: height 1s linear;
+            z-index: 1;
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 20px 40px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            z-index: 2;
+        }
+
+        .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; text-align: left; }
+
+        .timeline-dot {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background-color: var(--bg-dark);
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            top: 25px;
+            right: -9px;
+            z-index: 3;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot { left: -9px; right: auto; }
+
+        .timeline-date {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-gold);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .timeline-content h5 { margin: 0 0 10px 0; font-size: 1.1rem; color: var(--text-cream); }
+        .timeline-content p { font-size: 0.95rem; color: rgba(244, 241, 234, 0.7); }
+
+        .btn-outline {
+            border: 1px solid var(--accent-gold);
+            padding: 15px 40px;
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            transition: 0.4s;
+            text-transform: uppercase;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-gold);
+            color: var(--bg-dark);
+        }
+
+        .timeline-close {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            width: 40px;
+            height: 40px;
+            background-color: var(--text-cream);
+            color: var(--accent-gold);
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-close:hover { transform: translateX(-50%) scale(1.1); }
+
+        /* Back Button Style (ίδιο στυλ με το timeline-close) */
+        .nav-back-btn {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 1.5rem;
+            padding-bottom: 2px;
+            box-sizing: border-box;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-back-btn:hover {
+            background-color: var(--accent-gold);
+            color: var(--bg-dark);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.6);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes nav-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(197, 160, 89, 0.1); border-bottom-color: rgba(197, 160, 89, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(197, 160, 89, 0.5); border-bottom-color: rgba(197, 160, 89, 0.6); }
+        }
+
+        @keyframes text-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: var(--bg-dark);
+            color: rgba(244, 241, 234, 0.6);
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { padding: 20px; }
+            .container { padding: 40px 20px; background-attachment: scroll !important; }
+            
+            h2 { font-size: 2.2rem; } /* Πιο μικρός τίτλος για κινητά */
+
+            /* Timeline Mobile Transformation (Μονή Στήλη) */
+            .timeline-line {
+                left: 20px; /* Η γραμμή πάει αριστερά */
+                transform: none;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 50px; /* Χώρος για τη γραμμή */
+                padding-right: 10px;
+                text-align: left !important; /* Όλα αριστερή στοίχιση */
+            }
+
+            .timeline-item:nth-child(even) { left: 0; }
+
+            .timeline-dot {
+                left: 11px !important; /* Κεντράρισμα στη νέα γραμμή */
+                right: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo">ΔΡΑΚΟΤΡΥΠΑ</a>
+    <a href="index.html#history" class="nav-back-btn">←</a>
+</nav>
+
+<section class="content-section">
+    <div class="container">
+        <h2>Ιστορία</h2>
+        
+        <div class="accordion-container">
+            <!-- Ενότητα 1 -->
+            <details>
+                <summary>Η Μετάβαση από τη Σκλάταινα στη Δρακότρυπα</summary>
+                <div class="accordion-content">
+                    <h4>Η Ρίζα του Ονόματος</h4>
+                    <p>Η παλαιά ονομασία «Σκλάταινα» είναι σλαβικής προέλευσης και απαντάται συχνά σε βυζαντινά χρυσόβουλα. Η ετυμολογία της παραπέμπει σε εδάφη με έντονη παρουσία υδάτων (λάσπη ή πηλός), κάτι που επιβεβαιώνεται από το γεγονός ότι το χωριό είναι χτισμένο πάνω σε ένα δίκτυο πηγών.</p>
+                    <h4>Η Μετονομασία του 1928</h4>
+                    <p>Μετά την απελευθέρωση και τη σταθεροποίηση του ελληνικού κράτους, υπήρξε μια τάση αντικατάστασης ξενόφερτων τοπωνυμίων. Η επιτροπή ονοματοθεσιών επέλεξε το «Δρακότρυπα» για να τιμήσει το επιβλητικό βάραθρο που δεσπόζει πάνω από τον οικισμό.</p>
+                    <h4>Το Βάραθρο της Δρακότρυπας</h4>
+                    <p>Πρόκειται για ένα γεωλογικό φαινόμενο με τεράστιο βάθος. Σύμφωνα με την τοπική παράδοση, το σπήλαιο ήταν η κατοικία ενός δράκου που φύλαγε τις «πύλες» των Αγράφων.</p>
+                </div>
+            </details>
+
+            <!-- Ενότητα 2 -->
+            <details>
+                <summary>Το «Πανεπιστήμιο» των Αγράφων & η Πνευματική Άνθηση</summary>
+                <div class="accordion-content">
+                    <h4>Ένας Φάρος Παιδείας</h4>
+                    <p>Η Σχολή της Σκλάταινας ιδρύθηκε σε μια εποχή που η παιδεία ήταν το μοναδικό μέσο επιβίωσης του ελληνισμού. Θεωρούνταν μία από τις «Ανώτερες Σχολές» της εποχής.</p>
+                    <h4>Η Σύνδεση με τον Άγιο Γεώργιο</h4>
+                    <p>Η Σχολή λειτουργούσε υπό την προστασία του Μοναστηριού του Αγίου Γεωργίου. Το μοναστήρι διέθετε σπάνια βιβλιοθήκη με κώδικες και χειρόγραφα.</p>
+                </div>
+            </details>
+
+            <!-- Ενότητα 3 -->
+            <details>
+                <summary>Οι Σπαθάδες: Η Χρυσή Εποχή της Μεταλλουργίας</summary>
+                <div class="accordion-content">
+                    <h4>Το Μονοπώλιο του Ατσαλιού</h4>
+                    <p>Η Δρακότρυπα ήταν το «οπλοστάσιο» της περιοχής. Οι Σπαθάδες ήταν μια ελίτ τεχνιτών που κατασκεύαζαν σπαθιά, μαχαίρια και αιχμές για δόρατα.</p>
+                    <h4>Το Μυστικό της Βαφής</h4>
+                    <p>Η φήμη των «Σκλαταινιώτικων» όπλων οφειλόταν στη «βαφή» (σκλήρυνση) του ατσαλιού, χρησιμοποιώντας το παγωμένο νερό των τοπικών πηγών.</p>
+                </div>
+            </details>
+
+            <!-- Ενότητα 4 -->
+            <details>
+                <summary>Υδροκίνηση & Παραδοσιακή Οικονομία</summary>
+                <div class="accordion-content">
+                    <h4>Η Δύναμη των Ρεμάτων</h4>
+                    <p>Πριν την έλευση του ηλεκτρισμού, η Δρακότρυπα κινούνταν με το νερό. Στα ρέματα του χωριού υπήρχε μια ολόκληρη βιομηχανική ζώνη με νερόμυλους και μαντάνια.</p>
+                </div>
+            </details>
+
+            <!-- Ενότητα 5 -->
+            <details>
+                <summary>Πέτρινα Αρχοντικά & Η Αναγέννηση</summary>
+                <div class="accordion-content">
+                    <h4>Οι Μαστόροι της Πέτρας</h4>
+                    <p>Η Δρακότρυπα είναι χτισμένη με την παραδοσιακή ηπειρωτική/θεσσαλική τεχνική. Τα σπίτια είναι αληθινά οχυρά, με τοίχους πάχους άνω των 60 εκατοστών.</p>
+                </div>
+            </details>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <a href="#" id="timeline-btn" class="btn-outline">ΔΕΙΤΕ ΤΟ ΧΡΟΝΟΛΟΓΙΟ</a>
+        </div>
+
+        <!-- Timeline Container -->
+        <div class="timeline-wrapper" id="timeline">
+            <div class="timeline-line" id="main-line"></div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Μυθολογική Απαρχή</span>
+                    <h5>Η Κατοικία του Δράκου</h5>
+                    <p>Η δημιουργία του βαράθρου και οι θρύλοι για το σπήλαιο.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Βυζαντινή Περίοδος</span>
+                    <h5>Ίδρυση της Σκλάταινας</h5>
+                    <p>Ο οικισμός εμφανίζεται στα βυζαντινά αρχεία.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">1600 - 1700</span>
+                    <h5>Πνευματική Θεμελίωση</h5>
+                    <p>Ανέγερση του Ιερού Ναού του Αγίου Γεωργίου.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">18ος Αιώνας</span>
+                    <h5>Η Ακμή των Σπαθάδων</h5>
+                    <p>Η χρυσή εποχή της μεταλλουργίας.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">1928</span>
+                    <h5>Η Μετονομασία</h5>
+                    <p>Το χωριό μετονομάζεται σε Δρακότρυπα.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">1943 - 1944</span>
+                    <h5>Η Πυρπόληση</h5>
+                    <p>Το χωριό καίγεται από τις δυνάμεις κατοχής.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">21ος Αιώνας</span>
+                    <h5>Διατήρηση της Κληρονομιάς</h5>
+                    <p>Η Δρακότρυπα ανακηρύσσεται παραδοσιακός οικισμός.</p>
+                </div>
+            </div>
+
+            <div id="timeline-close" class="timeline-close">✕</div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 Δρακότρυπα | All Rights Reserved </p>
+</footer>
+
+<script>
+    // Timeline Animation Script
+    const timelineBtn = document.getElementById('timeline-btn');
+    if (timelineBtn) {
+        timelineBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            this.style.display = 'none';
+            const timeline = document.getElementById('timeline');
+            timeline.style.display = 'block';
+            const items = document.querySelectorAll('.timeline-item');
+            const line = document.getElementById('main-line');
+            const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            line.style.height = '100%';
+            await wait(1000);
+
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const dot = item.querySelector('.timeline-dot');
+                dot.style.opacity = '1';
+                dot.style.transform = 'scale(1)';
+                await wait(200);
+                item.style.opacity = '1';
+                await wait(400);
+            }
+
+            const closeBtn = document.getElementById('timeline-close');
+            if (closeBtn) {
+                closeBtn.style.transform = 'translateX(-50%) scale(1)';
+            }
+        });
+    }
+
+    const closeBtn = document.getElementById('timeline-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            const timeline = document.getElementById('timeline');
+            const timelineBtn = document.getElementById('timeline-btn');
+            timeline.style.display = 'none';
+            timelineBtn.style.display = 'inline-block';
+            document.getElementById('main-line').style.height = '0';
+            document.querySelectorAll('.timeline-item').forEach(item => item.style.opacity = '0');
+            document.querySelectorAll('.timeline-dot').forEach(dot => {
+                dot.style.opacity = '0';
+                dot.style.transform = 'scale(0)';
+            });
+            this.style.transform = 'translateX(-50%) scale(0)';
+        });
+    }
+</script>
+</body>
+</html>
