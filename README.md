@@ -12,7 +12,7 @@
 Λειτουργικότητα: Όλα τα βασικά components (Navigation, Timeline, Weather API, Transitions) είναι πλήρως λειτουργικά, αποδεικνύοντας τις δυνατότητες του κώδικα σε πραγματικές συνθήκες χρήσης.
 
 ## 🌐 Live Demo
-Μπορείτε να δείτε την ιστοσελίδα ζωντανά εδώ: **[Link για το GitHub Pages σου]**
+Μπορείτε να δείτε την ιστοσελίδα ζωντανά εδώ: **[https://lambrosmp.github.io/Drakotrypa-Website/]**
 
 ## ✨ Χαρακτηριστικά (Features)
 
